@@ -31,7 +31,7 @@ module.exports = {
 
 	},	
 	//GET WITH CHEERIO 
-	getCheerioToDay:function(req, res){
+	getCartelera:function(req, res){
 
 		 var request = require('request');
 		 var cheerio = require('cheerio');
@@ -71,7 +71,7 @@ module.exports = {
 		 					peliculaSinopsis:   $sinopsis.text().trim(),
 		 					horarios: 			$horarios.text().trim(),
 		 					urlImg: 			$urlImg.attr('src'),
-		 					urlDetail: $urlDetail.attr('onclick').substring(15),		 					
+		 					urlDetail: $urlDetail.attr('onclick').substring(15).replace('\'',''),		 					
 
 		 				};
 
@@ -90,7 +90,8 @@ module.exports = {
 		 var request = require('request');
 		 var cheerio = require('cheerio');
 		 var url = 'http://www.cinetecanacional.net/'; 
-		 var command = req.param('command');
+		 var command = req.param('pelicula');
+		 var peliculasArray = Array();
 
 		 undefined !== command ?  url+=command : url;
 
@@ -109,11 +110,15 @@ module.exports = {
 
 		 		console.log($avance.attr('onclick'));
 
+		 		peliculasArray[0] = {
 
-		 		return res.json({
-		 			error:response.statusCode,
 		 			sinopsisCompleta: $detalle.text().trim(),		 			
-		 			trailer: undefined !== $avance.attr('onclick') ? $avance.attr('onclick').match(/\/(.{11})(?:\'|\?)/)[1] : ''
+		 			trailer: undefined !== $avance.attr('onclick') ? $avance.attr('onclick').match(/\/(.{11})(?:\'|\?)/)[1] : '',
+
+		 		}
+		 		return res.json({
+		 			error:response.statusCode,		 			
+		 			peliculas: peliculasArray
 		 		});
 		 	}
 
