@@ -90,6 +90,7 @@ module.exports = {
 		 var request = require('request');
 		 var cheerio = require('cheerio');
 		 var url = 'http://www.cinetecanacional.net/'; 
+
 		 var command = req.param('pelicula');
 		 var peliculasArray = Array();
 
