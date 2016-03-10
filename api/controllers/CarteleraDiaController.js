@@ -107,12 +107,14 @@ module.exports = {
 		 		var $ = cheerio.load(body);		 		
 		 		$detalle = $('#peliculaSinopsis');
 		 		$avance = $('#botonTrailer');
+		 		$imgAvance = $('#peliculaVisible').find('img');
 
 		 		console.log($avance.attr('onclick'));
 
 		 		peliculasArray[0] = {
 
 		 			sinopsisCompleta: $detalle.text().trim(),		 			
+		 			imgUrl: $imgAvance.attr('src'),
 		 			trailer: undefined !== $avance.attr('onclick') ? $avance.attr('onclick').match(/\/(.{11})(?:\'|\?)/)[1] : '',
 
 		 		}
