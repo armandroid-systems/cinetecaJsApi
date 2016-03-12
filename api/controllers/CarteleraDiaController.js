@@ -8,28 +8,6 @@
 module.exports = {	
 
 	
-	getCarteleraThirdParty:function(req, res){
-		var dia = req.param('dia');
-		var param = "";
-		if(dia !== undefined){
-				param = '/controlador.php?opcion=carteleraDia&dia='+dia;
-			}else{
-				param = '/controlador.php?opcion=carteleraDia';
-			}
-		var thirdPartyCineteca = require('cineteca')({
-			entry: 'http://www.cinetecanacional.net',
-			today: param
-  			
-		});
-
-		thirdPartyCineteca.today(function(err, movies){
-			return res.json({
-				movies
-			});
-		});
-
-
-	},	
 	//GET WITH CHEERIO 
 	getCartelera:function(req, res){
 
@@ -126,31 +104,6 @@ module.exports = {
 		 	}
 
 		 });
-
-	},
-
-	testXray:function(req, res){
-
-		 var xray = require('x-ray');
-		 var url = 'http://www.cinetecanacional.net/controlador.php?opcion=carteleraDia';
-		 var dia = req.param('dia');
-		 var self = Array();
-		 var x = xray();
-
-		 console.log('ENTER CONTROLLER');		 
-		 console.log('PARAM ARRIVED ['+dia+']');
-
-		 if(dia !== undefined){
-		 	url += '&dia='+dia;
-		 }	
-
-		 x(url,'#peliculaTitulo')(function(err, obj){
-		 	console.log('ERROR -->'+err);
-		 	return res.json({
-					obj
-				});
-		 });
-		 
 
 	}
 	
