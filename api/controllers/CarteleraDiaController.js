@@ -75,7 +75,7 @@ module.exports = {
 		 undefined !== command ?  url+=command : url;
 
 		 console.log('URL ['+url+']');
-		 console.log('COMMAND ['+command+']');
+		 console.log('COMMAND DETALLE ['+command+']');
 
 		 request({url, encoding: 'binary'}, function(err, response, body){
 
