@@ -13,6 +13,7 @@ module.exports = {
 
 		 var request = require('request');
 		 var cheerio = require('cheerio');
+		 var Iconv	 = require('iconv').Iconv;
 
 		 var url = 'http://www.cinetecanacional.net/'; 				 
 		 var dia = req.param('dia');
@@ -26,12 +27,15 @@ module.exports = {
 		 undefined !== dia ? url += comando + '&dia=' + dia : url += comando;
 
 		 
-		 request({uri: url, enconding: 'binary'}, function(err, response, body){
+		 request.get({uri: url, encoding: null}, function(err, response, body){
 		 	if(err && response.statusCode !== 200){
 		 		console.log('ERROR SERVER ['+err+']');
 		 	}else{
 		 		console.log('REQUEST 0k');
-		 		var $ = cheerio.load(body);
+		 		var iconv = new Iconv('iso-8859-1','UTF-8');
+		 		var buffer = iconv.convert(body);
+		 		var newBody = buffer.toString('utf8');
+		 		var $ = cheerio.load(newBody);
 
 		 		$('#contenedorPelicula').each(function(i, item){
 
