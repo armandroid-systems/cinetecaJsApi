@@ -71,6 +71,7 @@ module.exports = {
 
 		 var request = require('request');
 		 var cheerio = require('cheerio');
+		 var Iconv 	 = require('iconv').Iconv;
 		 var url = 'http://www.cinetecanacional.net/'; 
 
 		 var command = req.param('pelicula');
@@ -81,13 +82,15 @@ module.exports = {
 		 console.log('URL ['+url+']');
 		 console.log('COMMAND DETALLE ['+command+']');
 
-		 request({url, encoding: 'binary'}, function(err, response, body){
+		 request.get({url, encoding: null}, function(err, response, body){
 
 		 	if(err && response.statusCode !== 200){
 		 		console.log('ERROR 2'+err);
 		 	}else{
-
-		 		var $ = cheerio.load(body);		 		
+		 		var iconv = new Iconv('iso-8859-1','UTF-8');
+		 		var buffer = iconv.convert(body);
+		 		var newBody = buffer.toString('utf8');
+		 		var $ = cheerio.load(newBody);		 		
 		 		$detalle = $('#peliculaSinopsis');
 		 		$avance = $('#botonTrailer');
 		 		$imgAvance = $('#peliculaVisible').find('img');
